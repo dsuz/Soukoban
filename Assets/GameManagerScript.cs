@@ -30,7 +30,7 @@ public class GameManagerScript : MonoBehaviour
         {
             GameObject f = field[goals[i].y, goals[i].x];   // ゴールの座標に何があるかとってくる
             
-            if (f != null || f.tag != "Box")
+            if (f == null || f.tag != "Box")
             {
                 return false;
             }   // 格納場所に箱がない、というケースが一つでもあればクリアしてないと判定する
@@ -101,7 +101,7 @@ public class GameManagerScript : MonoBehaviour
         map = new int[,]
         {
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0 },
-            { 0, 0, 0, 0, 0, 0, 2, 2, 1, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 3, 2, 2, 1, 0, 0, 0, 0, 0 },
             { 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0 },
         };  // 0: 何もない, 1: プレイヤー, 2: 箱
 
@@ -142,24 +142,36 @@ public class GameManagerScript : MonoBehaviour
         {
             var playerPosition = GetPlayerIndex();
             MoveNumber(playerPosition, new Vector2Int(playerPosition.x + 1, playerPosition.y));    // →に移動
+
+            if (IsClear())
+                Debug.Log("Clear");
         }
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             var playerPosition = GetPlayerIndex();
             MoveNumber(playerPosition, new Vector2Int(playerPosition.x - 1, playerPosition.y));    // ←に移動
+
+            if (IsClear())
+                Debug.Log("Clear");
         }
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             var playerPosition = GetPlayerIndex();
             MoveNumber(playerPosition, new Vector2Int(playerPosition.x, playerPosition.y - 1));    // ↑に移動
+
+            if (IsClear())
+                Debug.Log("Clear");
         }
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             var playerPosition = GetPlayerIndex();
             MoveNumber(playerPosition, new Vector2Int(playerPosition.x, playerPosition.y + 1));    // ↓に移動
+
+            if (IsClear())
+                Debug.Log("Clear");
         }
     }
 }
