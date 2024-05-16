@@ -73,15 +73,29 @@ public class GameManagerScript : MonoBehaviour
     {
         map = new int[,]
         {
-            { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0 },
-            { 0, 0, 1, 0, 1, 0, 0, 2, 0, 0, 1, 0, 0, 0 },
-            { 0, 0, 0, 1, 0, 2, 0, 0, 1, 0, 2, 0, 0, 0 },
-        };
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 2, 0, 0, 1, 0, 2, 0, 0, 0 },
+        };  // 0: 何もない, 1: プレイヤー, 2: 箱
 
         PrintArray();
 
-        GameObject instance =
-            Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        for (int y = 0; y < map.GetLength(0); y++)
+        {
+            for (int x = 0; x <  map.GetLength(1); x++)
+            {
+                if (map[y, x] == 1)
+                {
+                    // ここにプレイヤーを出す
+                    GameObject instance =
+                        Instantiate(playerPrefab,
+                        new Vector3(x, -1 * y, 0),
+                        Quaternion.identity);
+                    // プレイヤーは１つだけなので抜ける
+                    break;
+                }
+            }
+        }
     }
 
     void Update()
