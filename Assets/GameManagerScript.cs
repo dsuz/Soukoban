@@ -24,17 +24,14 @@ public class GameManagerScript : MonoBehaviour
         if (moveTo.x < 0 || moveTo.x >= field.GetLength(1))
             return false;
 
-        //if (map[moveTo] == 2)
-        //{
-        //    // 移動方向（正なら→、負なら←を計算する）
-        //    int velocity = moveTo - moveFrom;
-        //    bool success = MoveNumber(2, moveTo, moveTo + velocity);
-
-        //    if (!success)
-        //    {
-        //        return false;
-        //    }
-        //}   // プレイヤーの移動先に箱がいた場合の処理
+        if (field[moveTo.y, moveTo.x] != null
+            && field[moveTo.y, moveTo.x].tag == "Box")
+        {
+            Vector2Int velocity = moveTo - moveFrom;    // 移動方向を計算する
+            bool success = MoveNumber(moveTo, moveTo + velocity);
+            if (!success)
+                return false;
+        }   // 移動先に箱がいた場合の処理
 
         // プレイヤー・箱の共通処理
         field[moveTo.y, moveTo.x] = field[moveFrom.y, moveFrom.x];
@@ -74,7 +71,7 @@ public class GameManagerScript : MonoBehaviour
         map = new int[,]
         {
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0 },
-            { 0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 0, 2, 2, 1, 0, 0, 0, 0, 0 },
             { 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0 },
         };  // 0: 何もない, 1: プレイヤー, 2: 箱
 
