@@ -68,30 +68,13 @@ public class GameManagerScript : MonoBehaviour
         return new Vector2Int(-1, -1);  // 見つからなかった
     }
 
-    void PrintArray()
-    {
-        string debugText = "";
-
-        for (int y = 0; y < map.GetLength(0); y++)
-        {
-            for (int x = 0; x < map.GetLength(1); x++)
-            {
-                debugText += map[y, x].ToString() + ",";
-            }
-
-            debugText += "\n";
-        }
-
-        Debug.Log(debugText);
-    }
-
     void Start()
     {
         map = new int[,]
         {
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0 },
-            { 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0 },
-            { 0, 0, 0, 0, 0, 2, 0, 0, 1, 0, 2, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0 },
+            { 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0 },
         };  // 0: 何もない, 1: プレイヤー, 2: 箱
 
         field = new GameObject
@@ -99,8 +82,6 @@ public class GameManagerScript : MonoBehaviour
             map.GetLength(0),
             map.GetLength(1)
         ];  // map の行列と同じ升目の配列をもうひとつ作った
-
-        PrintArray();
 
         for (int y = 0; y < map.GetLength(0); y++)
         {
@@ -125,17 +106,26 @@ public class GameManagerScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            //int playerIndex = GetPlayerIndex();
             var playerPosition = GetPlayerIndex();
             MoveNumber(playerPosition, new Vector2Int(playerPosition.x + 1, playerPosition.y));    // →に移動
-            //PrintArray();
         }
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             var playerPosition = GetPlayerIndex();
-            MoveNumber(playerPosition, new Vector2Int(playerPosition.x - 1, playerPosition.y));    // →に移動
-            PrintArray();
+            MoveNumber(playerPosition, new Vector2Int(playerPosition.x - 1, playerPosition.y));    // ←に移動
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            var playerPosition = GetPlayerIndex();
+            MoveNumber(playerPosition, new Vector2Int(playerPosition.x, playerPosition.y - 1));    // ↑に移動
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            var playerPosition = GetPlayerIndex();
+            MoveNumber(playerPosition, new Vector2Int(playerPosition.x, playerPosition.y + 1));    // ↓に移動
         }
     }
 }
