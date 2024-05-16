@@ -9,6 +9,36 @@ public class GameManagerScript : MonoBehaviour
     int[,] map; // マップの元データ（数字）
     GameObject[,] field;    // map を元にしたオブジェクトの格納庫
 
+    bool IsClear()
+    {
+        // 格納場所一覧のデータを作る
+        List<Vector2Int> goals = new List<Vector2Int>();
+        
+        for (int y = 0; y < map.GetLength(0); y++)
+        {
+            for (int x = 0; x < map.GetLength(1); x++)
+            {
+                if (map[y, x] == 3)
+                {
+                    goals.Add(new Vector2Int(x, y));
+                }   // 格納場所である場合
+            }
+        }
+
+        // 格納場所に箱があるか調べる
+        for (int i = 0; i < goals.Count; i++)
+        {
+            GameObject f = field[goals[i].y, goals[i].x];   // ゴールの座標に何があるかとってくる
+            
+            if (f != null || f.tag != "Box")
+            {
+                return false;
+            }   // 格納場所に箱がない、というケースが一つでもあればクリアしてないと判定する
+        }
+
+        return true;    // すべての格納場所に箱がある場合
+    }
+
     /// <summary>
     /// number を動かす
     /// </summary>
