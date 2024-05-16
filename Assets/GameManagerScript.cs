@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManagerScript : MonoBehaviour
 {
     public GameObject playerPrefab;
+    public GameObject boxPrefab;
     int[,] map; // マップの元データ（数字）
     GameObject[,] field;    // map を元にしたオブジェクトの格納庫
 
@@ -89,15 +90,21 @@ public class GameManagerScript : MonoBehaviour
             {
                 if (map[y, x] == 1)
                 {
-                    // ここにプレイヤーを出す
                     GameObject instance =
                         Instantiate(playerPrefab,
                         new Vector3(x, -1 * y, 0),
                         Quaternion.identity);
-                    // プレイヤーは１つだけなので抜ける
                     field[y, x] = instance; // プレイヤーを保存しておく
-                    break;
-                }
+                    break;  // プレイヤーは１つだけなので抜ける
+                }   // プレイヤーを出す
+                else if(map[y, x] == 2)
+                {
+                    GameObject instance =
+                        Instantiate(boxPrefab,
+                        new Vector3(x, -1 * y, 0),
+                        Quaternion.identity);
+                    field[y, x] = instance; // 箱を保存しておく
+                }   // 箱を出す
             }
         }
     }
